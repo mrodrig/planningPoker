@@ -1,0 +1,9 @@
+.c9
+.idea
+.iml
+app/public/css*
+app/views/*.js
+logs*
+npm-debug.log
+Dockerfile
+docker*

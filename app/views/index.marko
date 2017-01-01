@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Planning App</title>
+    <base href="${data.homeConfig.appDomain}${data.homeConfig.appRootUrl}/">
+
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.4/css/jquery-ui.min.css"/>
+    <link rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css"/>
+    <link rel='stylesheet' href='css/layout.css'/>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.3/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.5/angular-route.js"></script>
+    <script src="/planning/js/app.js"></script>
+    <script src="/planning/js/controllers/SizingController.js"></script>
+</head>
+
+<body id="planning" ng-app="planning" ng-cloak ng-if="!alreadyAttendee">
+
+<div class="container-fluid" ng-controller="SizingController">
+
+    <div class="row">
+        <div class="col-xs-4">
+            <h1>Planning Poker App</h1>
+        </div>
+        <div class="col-xs-6 col-xs-offset-2 name">
+            <h3>
+                <span ng-show="user">{{user.name}}</span>
+                <span ng-hide="user">Presentation View</span>
+            </h3>
+        </div>
+    </div>
+
+    <div class="container-fluid content">
+
+        <div id="status" ng-switch="connectionStatus">
+            <div class="alert alert-danger" ng-switch-when="error">
+                <a href="#" ng-click="clearConnectionStatus()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Error: </strong> A connection error occurred.
+            </div>
+            <div class="alert alert-warning" ng-switch-when="reconnected">
+              <a href="#" ng-click="clearConnectionStatus()" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Info: </strong> Reconnected to application.
+            </div>
+        </div>
+
+        <div id="attendanceSection">
+            <h2>Attendees</h2>
+            <hr/>
+            <div id="users">
+                <div ng-hide="users.length">
+                    <h3>No users are currently attending.</h3>
+                </div>
+                <div class="row" ng-show="users.length">
+                    <div class="col-xs-6">
+                        <h3>Name</h3>
+                    </div>
+                    <div class="col-xs-2 col-xs-offset-2">
+                         <h3>Size Estimate</h3>
+                    </div>
+                    <div class="col-xs-2" ng-if="!user">
+                        <button id="clearButton" type="button" class="btn btn-secondary" ng-click="clearSizes()">Clear Sizes</button>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="attendee in users" ng-if="users.length">
+                    <div class="col-xs-6">
+                        <h4>
+                            <span ng-class="{'bold': user.name === attendee.name}">{{attendee.name}}</span>
+                        </h4>
+                    </div>
+                    <div class="col-xs-2 col-xs-offset-2">
+                        <h4 ng-class="{'bold': user.name === attendee.name}">
+                            <span ng-show="attendee.sizeValue.length">{{attendee.sizeValue}}</span>
+                            <span ng-hide="attendee.sizeValue.length">Not Reported</span>
+                        </h4>
+                    </div>
+                </div>
+                <div class="row" ng-show="users.length">
+                    <div class="col-xs-3">
+                        <h3 ng-show="averages.regular !== null">Average: {{averages.regular}}</h3>
+                    </div>
+                    <div class="col-xs-3 col-xs-offset-1">
+                         <h3 ng-show="averages.closest !== -1">Closest: {{averages.closest}}</h3>
+                    </div>
+                    <div class="col-xs-3 col-xs-offset-1">
+                        <h3 ng-show="mode !== null">Mode: {{mode}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cardSection" ng-if="user">
+            <h2>Cards</h2>
+            <hr/>
+            <div id="hand" class="row">
+                <div class="col-sm-1 card" ng-repeat="card in cards" ng-click="reportSizing(card);">
+                    <h2>{{card}}</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

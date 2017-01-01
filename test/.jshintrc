@@ -1,0 +1,37 @@
+{
+    /* TEST directory jshintrc. inherits from standard jshint configuration.
+     * These are our rules for tests only.
+     * TODO how do we get this to inherit from our base jshintrc?
+     * https://github.com/jshint/jshint/issues/833
+     */
+    "strict"        : true,
+    "node"          : true,    // Node.js
+    "browser"       : true,    // we have client code.
+
+    // Custom Globals
+    "globals"       : {
+        /* angular stuff */
+        "angular"    : false,
+        "inject"     : false,
+        /* Jasmine */
+        "jasmine"    : false,
+        "describe"   : false,
+        "xdescribe"   : false,
+        "it"         : false,
+        "before"     : false,
+        "beforeEach" : false,
+        "after"      : false,
+        "afterEach"  : false,
+        "spyOn"      : false,
+        "waits"      : false,
+        "waitsFor"   : false,
+        "runs"       : false,
+        "expect"     : false,
+        "_"     : false,
+        "Promise"     : true,
+        "setInterval" : true,
+        "clearInterval" : true
+
+
+    }        // additional predefined global variables
+}
