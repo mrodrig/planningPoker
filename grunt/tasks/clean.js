@@ -13,6 +13,9 @@ module.exports = function(grunt) {
         },
         markoViews: {
             src: [ 'app/views/*.js' ]
+        },
+        debugLogs: {
+            src: [ 'npm-debug.log' ]
         }
     });
 };
