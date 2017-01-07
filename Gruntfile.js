@@ -1,4 +1,4 @@
-    'use strict';
+'use strict';
 
 module.exports = function (grunt) {
 
@@ -8,5 +8,6 @@ module.exports = function (grunt) {
     // Register our own custom task alias
     grunt.registerTask('default', ['noTest']);
     grunt.registerTask('noTest', ['clean', 'less']);
+    grunt.registerTask('test', ['jshint']);
 
 };
