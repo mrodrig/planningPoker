@@ -21,7 +21,7 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
     $rootScope.socket.on('notification:user:connect', function (user) {
         console.log('New user connected', user);
         $scope.users.push(user);
-        $scope.apply();
+        $rootScope.apply($scope);
     });
 
     $scope.clearSizes = function () {
@@ -32,11 +32,11 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
     $scope.computeStats = function () {
         resetStats();
         // Compute the average
-        var sizeList = _.filter(_.pluck($scope.users, 'sizeValue'), (s) => {return !isNaN(parseInt(s, 10))}),
-            numericSizePossibilities = _.filter($scope.cards, (c) => {return !isNaN(parseInt(c, 10))});
+        var sizeList = _.filter(_.pluck($scope.users, 'sizeValue'), (s) => {return !isNaN(parseInt(s, 10));}),
+            numericSizePossibilities = _.filter($scope.cards, (c) => {return !isNaN(parseInt(c, 10));});
 
         var computeAverage = function () {
-            return (_.reduce(sizeList, (memo, num) => { return memo + parseInt(num, 10) }, 0) / sizeList.length);
+            return (_.reduce(sizeList, (memo, num) => { return memo + parseInt(num, 10); }, 0) / sizeList.length);
         };
 
         var computeMode = function () {
@@ -65,7 +65,7 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
         // Compute the value closest to the possible sizes
         computeClosest();
 
-        $scope.apply();
+        $rootScope.apply($scope);
     };
 
     $scope.reportSizing = function (size) {
@@ -83,13 +83,13 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
             $scope.users[id].sizeValue = null;
         });
         resetStats();
-        $scope.apply();
+        $rootScope.apply($scope);
     });
 
     $rootScope.socket.on('people:alreadyAttendee', function () {
         console.log('WARN: You are already an attendee!');
         $scope.alreadyAttendee = true;
-        $scope.apply();
+        $rootScope.apply($scope);
     });
 
     $rootScope.socket.on('notification:user:sizeValue', function (data) {
@@ -97,14 +97,14 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
         var userIndx = findUserIndx({id: data.id});
         $scope.users[userIndx].sizeValue = data.sizeValue;
         $scope.computeStats();
-        $scope.apply();
+        $rootScope.apply($scope);
     });
 
     $rootScope.socket.on('people:currentAttendees', function (data) {
         console.log('Received current attendees list', data);
         $scope.users = data;
         $scope.computeStats();
-        $scope.apply();
+        $rootScope.apply($scope);
     });
 
     $rootScope.socket.on('notification:user:disconnect', function (data) {
@@ -112,7 +112,7 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
         delete $scope.users[findUserIndx(data)];
         $scope.users = _.filter($scope.users);
         $scope.computeStats();
-        $scope.apply();
+        $rootScope.apply($scope);
     });
 
     $document.bind('keypress', function(e) {
@@ -124,16 +124,4 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
             $scope.clearSizes();
         }
     });
-
-    /**
-     * If not current in a digest cycle, apply the changes to the scope
-     * @param cb {Function} callback function to be called after applying
-     */
-    $scope.apply = function (cb) {
-        if (!$scope.$$phase) {
-            $scope.$apply(function () {
-                cb ? cb() : "";
-            });
-        }
-    };
 });

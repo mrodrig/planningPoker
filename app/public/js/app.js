@@ -3,9 +3,7 @@
 // Declare app level module which depends on filters, and services
 angular.module('planning', ['ngRoute'])
     .run(['$rootScope', '$http', '$location', '$routeParams',
-        /* jshint -W072 */
         function ($rootScope, $http, $location, $routeParams) {
-            /* jshint +W072 */
 
             $rootScope.socket = io();
             $rootScope.connectionStatus = '';
@@ -14,11 +12,10 @@ angular.module('planning', ['ngRoute'])
              * If not current in a digest cycle, apply the changes to the scope
              * @param cb {Function} callback function to be called after applying
              */
-            $rootScope.apply = function (cb) {
-                if (!$rootScope.$$phase) {
-                    $rootScope.$apply(function () {
-                        cb ? cb() : "";
-                    });
+            $rootScope.apply = function (scope) {
+                scope = scope || $rootScope;
+                if (!scope.$$phase) {
+                    scope.$apply(function () {});
                 }
             };
 
