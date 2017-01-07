@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    express_train_config_file_location: '../config',
+    port: 8080,
     logging: {
         level: 'info',
         filename: 'logs/planning.log'

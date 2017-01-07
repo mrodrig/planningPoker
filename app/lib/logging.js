@@ -2,7 +2,11 @@
 
 var winston = require('winston');
 
-module.exports = function(envConfig) {
+var envConfig = require('./envConfig');
+
+module.exports = logging();
+
+function logging() {
 
     winston.transports.Console.level = 'debug';
     //Remove the default console transport
@@ -26,5 +30,4 @@ module.exports = function(envConfig) {
     }
 
     return winston;
-
-};
+}

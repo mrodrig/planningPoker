@@ -1,13 +1,12 @@
 'use strict';
 
-var events = require('events'),
-    _ = require('underscore');
-    
-module.exports = function(logging, socketController, expressApp) {
-    var server = require('http').createServer(expressApp),
-        io = require('socket.io').listen(server);
+var _ = require('underscore');
 
-    io.sockets.on('connection', function (socket) {
+var socketController = require('../controllers/socketController'),
+    logging = require('./logging');
+    
+module.exports = function(io) {
+        io.sockets.on('connection', function (socket) {
         var clientId = socket.id;
         logging.info('Client connected', {socketId: socket.id});
 
@@ -49,6 +48,4 @@ module.exports = function(logging, socketController, expressApp) {
             socket.broadcast.emit('notification:user:disconnect', {socketId: clientId});
         });
     });
-
-    return {server: server, io: io};
 };
