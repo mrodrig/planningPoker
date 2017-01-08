@@ -5,5 +5,4 @@ app/public/css*
 app/views/*.js
 logs*
 npm-debug.log
-Dockerfile
-docker*
+node_modules*

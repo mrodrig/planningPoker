@@ -1,12 +1,12 @@
 # Planning Poker App
 
-Version `0.0.4`
+Version `0.0.5`
 
 ## Setup
 
 ### Git
 
-```bash 
+```bash
 git clone https://github.com/mrodrig/planningPoker.git
 cd planningPoker
 npm run setup
@@ -16,10 +16,21 @@ npm start
 ### GitHub Release
 
 ```bash
-wget https://codeload.github.com/mrodrig/planningPoker/zip/0.0.4
-unzip 0.0.4
-cd planningPoker-0.0.4
+wget https://codeload.github.com/mrodrig/planningPoker/zip/0.0.5
+unzip 0.0.5
+cd planningPoker-0.0.5
 npm run setup
+npm start
+```
+
+### Docker
+
+```bash
+git clone https://github.com/mrodrig/planningPoker.git
+cd planningPoker
+docker build -t planning .
+docker/start.sh
+docker/setup.sh
 npm start
 ```
 
