@@ -1,6 +1,6 @@
 # Planning Poker App
 
-Version `0.0.3`
+Version `0.0.4`
 
 ## Setup
 
@@ -16,9 +16,9 @@ npm start
 ### GitHub Release
 
 ```bash
-wget https://codeload.github.com/mrodrig/planningPoker/zip/0.0.3
-unzip 0.0.3
-cd planningPoker-0.0.3
+wget https://codeload.github.com/mrodrig/planningPoker/zip/0.0.4
+unzip 0.0.4
+cd planningPoker-0.0.4
 npm run setup
 npm start
 ```
