@@ -29,6 +29,12 @@ module.exports = function(io) {
             io.emit('notification:user:sizeValue', data);
         });
         
+        socket.on('notification:presenter:revealRequest', function () {
+            logging.info('Received request to reveal reported sizes.');
+            logging.debug('Broadcasting a revealSizes request to all clients.');
+            io.emit('notification:user:revealSizes');
+        });
+        
         socket.on('notification:presenter:clearRequest', function () {
             logging.info('Received request to clear reported sizes.');
             socketController.clearSizes();

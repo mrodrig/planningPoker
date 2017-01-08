@@ -31,6 +31,7 @@
   "main": "./app/index.js",
   "scripts": {
     "start": "node ./app/app.js",
-    "setup": "rm -rf node_modules && npm install && grunt"
+    "setup": "rm -rf node_modules && npm install && grunt",
+    "dev": "grunt noTest && npm start"
   }
 }

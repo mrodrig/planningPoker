@@ -6,7 +6,9 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
     $scope.currentSizeValue = null;
     $scope.averages = {regular: null, closest: -1};
     $scope.mode = null;
-    $scope.cards = ['0', '1', '2', '3', '5', '8', '13', '?']; // 'c' => Clear (if presenter)
+    $scope.revealSizes = false;
+    $scope.cards = ['0', '1', '2', '3', '5', '8', '13', '?']; // 'c' => Clear, 'r' => Reveal (if presenter)
+    $rootScope.apply($scope);
     
     var findUserIndx = function (user) {
         return _.indexOf($scope.users, _.findWhere($scope.users, user));
@@ -24,8 +26,13 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
         $rootScope.apply($scope);
     });
 
-    $scope.clearSizes = function () {
-        console.log('Clearing sizes via clearSizes()');
+    $scope.revealSizesHandler = function () {
+        console.log('Revealing sizes via revealSizesHandler()');
+        $rootScope.socket.emit('notification:presenter:revealRequest');
+    };
+
+    $scope.clearSizesHandler = function () {
+        console.log('Clearing sizes via clearSizesHandler()');
         $rootScope.socket.emit('notification:presenter:clearRequest');
     };
 
@@ -76,6 +83,14 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
             sizeValue: size
         });
     };
+    
+    /** Socket Handlers */
+    
+    $rootScope.socket.on('notification:user:revealSizes', function () {
+        $scope.revealSizes = true;
+        $scope.computeStats();
+        $rootScope.apply($scope);
+    });
 
     $rootScope.socket.on('notification:user:clearSizes', function () {
         console.log('Received request to clear sizes.');
@@ -83,6 +98,7 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
             $scope.users[id].sizeValue = null;
         });
         resetStats();
+        $scope.revealSizes = false;
         $rootScope.apply($scope);
     });
 
@@ -96,14 +112,12 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
         console.log('Received size value from user', data);
         var userIndx = findUserIndx({id: data.id});
         $scope.users[userIndx].sizeValue = data.sizeValue;
-        $scope.computeStats();
         $rootScope.apply($scope);
     });
 
     $rootScope.socket.on('people:currentAttendees', function (data) {
         console.log('Received current attendees list', data);
         $scope.users = data;
-        $scope.computeStats();
         $rootScope.apply($scope);
     });
 
@@ -121,7 +135,10 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
             $scope.reportSizing(key);
         } else if (key === 'c' && !$rootScope.user) {
             // Presentation Mode --> Clear the size values
-            $scope.clearSizes();
+            $scope.clearSizesHandler();
+        } else if (key === 'r' && !$rootScope.user) {
+            // Presentation Mode --> Clear the size values
+            $scope.revealSizesHandler();
         }
     });
 });

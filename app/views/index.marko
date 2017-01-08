@@ -62,7 +62,14 @@
                          <h3>Size Estimate</h3>
                     </div>
                     <div class="col-xs-2" ng-if="!user">
-                        <button id="clearButton" type="button" class="btn btn-secondary" ng-click="clearSizes()">Clear Sizes</button>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <button id="revealButton" type="button" class="btn btn-secondary" ng-click="revealSizesHandler()">Reveal Sizes</button>
+                            </div>
+                            <div class="col-xs-12">
+                                <button id="clearButton" type="button" class="btn btn-secondary" ng-click="clearSizesHandler()">Clear Sizes</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row" ng-repeat="attendee in users" ng-if="users.length">
@@ -73,7 +80,8 @@
                     </div>
                     <div class="col-xs-2 col-xs-offset-2">
                         <h4 ng-class="{'bold': user.name === attendee.name}">
-                            <span ng-show="attendee.sizeValue.length">{{attendee.sizeValue}}</span>
+                            <span ng-show="attendee.sizeValue.length && revealSizes">{{attendee.sizeValue}}</span>
+                            <span ng-show="attendee.sizeValue.length && !revealSizes">Sized!</span>
                             <span ng-hide="attendee.sizeValue.length">Not Reported</span>
                         </h4>
                     </div>
