@@ -22,7 +22,7 @@ angular.module('planning', ['ngRoute'])
             $rootScope.populateUserDetails = function () {
                 // When reconnecting, don't re-prompt if the user already entered their info or is in presentation mode
                 if (!$rootScope.name && !$rootScope.presentationMode) {
-                    $rootScope.name = prompt('Please enter your name.');
+                    $rootScope.name = prompt('Please enter your name. Leave blank for presentation mode.');
                     if (!$rootScope.name) {
                         $rootScope.presentationMode = true;
                     }
@@ -51,7 +51,7 @@ angular.module('planning', ['ngRoute'])
                 $rootScope.connectionStatus = 'reconnected';
                 init();
             });
-            
+
             $rootScope.clearConnectionStatus = function () {
                 $rootScope.connectionStatus = '';
             };

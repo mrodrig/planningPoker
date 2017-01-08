@@ -1,6 +1,43 @@
 # Planning Poker App
 
-Version `0.0.5`
+Version `1.0.0`
+
+## Overview
+
+Are you tired of using physical cards for your planning/sizing sessions?
+
+Wish there was an interactive version instead that helped you determine the average, closest, and median sizes? That's not a problem.
+
+Have strange story sizes? No problem.  The app allows you to easily customize them.
+
+This app can help you to simplify and streamline your agile planning session.
+
+Here are some app features:
+* Can be run with or without [Docker](https://www.docker.com/)
+* Utilizes [Socket.io](https://www.npmjs.com/package/socket.io) for real-time updates
+* Includes connection error handling to automatically re-connect clients if network blips occur
+
+## Screenshots
+
+### User View
+
+Unrevealed sizes:
+
+![User View (unrevealed sizes)](https://github.com/mrodrig/planningPoker/raw/master/screenshots/attendeeUnrevealed.png)
+
+Revealed sizes:
+
+![User View (revealed sizes)](https://github.com/mrodrig/planningPoker/raw/master/screenshots/attendeeRevealed.png)
+
+### Presentation View
+
+Unrevealed sizes:
+
+![Presentation View (unrevealed sizes)](https://github.com/mrodrig/planningPoker/raw/master/screenshots/presentationUnrevealed.png)
+
+Revealed sizes:
+
+![Presentation View (revealed sizes)](https://github.com/mrodrig/planningPoker/raw/master/screenshots/presentationRevealed.png)
 
 ## Setup
 
@@ -16,9 +53,9 @@ npm start
 ### GitHub Release
 
 ```bash
-wget https://codeload.github.com/mrodrig/planningPoker/zip/0.0.5
-unzip 0.0.5
-cd planningPoker-0.0.5
+wget https://codeload.github.com/mrodrig/planningPoker/zip/1.0.0
+unzip 1.0.0
+cd planningPoker-1.0.0
 npm run setup
 npm start
 ```
