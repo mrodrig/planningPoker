@@ -1,6 +1,6 @@
 {
   "name": "PlanningApp",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "directories": {},
   "author": "mrodrig",
   "engines": {
@@ -19,7 +19,7 @@
     "socket.io": "1.7.2",
     "winston": "2.3.0",
     "underscore": "1.8.3"
-    
+
   },
   "devDependencies": {
     "grunt": "1.0.1",
