@@ -8,16 +8,19 @@ var socketController = require('../controllers/socketController'),
 module.exports = function(io) {
         io.sockets.on('connection', function (socket) {
         var clientId = socket.id;
-        logging.info('Client connected', {socketId: socket.id});
 
         socket.on('people:joinRequest', function (data) {
-            logging.info('User requested their person info.', data);
             if (socketController.isUserAlreadyAttendee(data.name)) {
-                logging.warn('User is already attendee but attempted joining again.', data);
+                logging.warn('Client attempted to join again.', data);
                 return socket.emit('people:alreadyAttending');
             }
+            logging.info('Client connected.', data);
             var person = socketController.personInfoRequest(_.extend(data, {clientId: socket.id}));
-            logging.debug('Sending person information', person);
+            logging.debug('Sending person information', {
+                socketId: person.socketId,
+                id: person.id,
+                name: person.name
+            });
             socket.emit('people:personInfo', person);
             socket.broadcast.emit('notification:user:connect', person);
         });
