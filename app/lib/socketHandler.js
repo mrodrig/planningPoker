@@ -3,6 +3,7 @@
 var _ = require('underscore');
 
 var socketController = require('../controllers/socketController'),
+    envConfig = require('./envConfig'),
     logging = require('./logging');
     
 module.exports = function(io) {
@@ -23,6 +24,10 @@ module.exports = function(io) {
             });
             socket.emit('people:personInfo', person);
             socket.broadcast.emit('notification:user:connect', person);
+        });
+        
+        socket.on('notification:user:requestCardSizes', function() {
+            socket.emit('notification:user:cardSizes', envConfig.cardSizes);
         });
 
         socket.on('notification:user:reportSize', function (data) {
