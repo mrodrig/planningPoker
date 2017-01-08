@@ -1,6 +1,6 @@
 # Planning Poker App
 
-Version `0.0.2`
+Version `0.0.3`
 
 ## Setup
 
@@ -16,12 +16,20 @@ npm start
 ### GitHub Release
 
 ```bash
-wget https://codeload.github.com/mrodrig/planningPoker/zip/0.0.2
-unzip 0.0.2
-cd planningPoker-0.0.2
+wget https://codeload.github.com/mrodrig/planningPoker/zip/0.0.3
+unzip 0.0.3
+cd planningPoker-0.0.3
 npm run setup
 npm start
 ```
+
+## Customizing
+
+Have special sizes that you would like to use?  That's completely possible with this app.
+
+Just open `app/lib/envConfig.js` and change the `cardSizes` property to include your options!
+
+Proceed to start the app and your custom sizes should now appear.
 
 ## Running
 

@@ -7,8 +7,7 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
     $scope.averages = {regular: null, closest: -1};
     $scope.mode = null;
     $scope.revealSizes = false;
-    $scope.cards = ['0', '1', '2', '3', '5', '8', '13', '?']; // 'c' => Clear, 'r' => Reveal (if presenter)
-    $rootScope.apply($scope);
+    $scope.cards = []; 
     
     var findUserIndx = function (user) {
         return _.indexOf($scope.users, _.findWhere($scope.users, user));
@@ -25,6 +24,10 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
         $scope.users.push(user);
         $rootScope.apply($scope);
     });
+    
+    $scope.requestCardSizes = function () {
+        $rootScope.socket.emit('notification:user:requestCardSizes');
+    };
 
     $scope.revealSizesHandler = function () {
         console.log('Revealing sizes via revealSizesHandler()');
@@ -86,6 +89,11 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
     
     /** Socket Handlers */
     
+    $rootScope.socket.on('notification:user:cardSizes', function(cardSizes) {
+        $scope.cards = cardSizes;
+        $rootScope.apply($scope);
+    });
+    
     $rootScope.socket.on('notification:user:revealSizes', function () {
         $scope.revealSizes = true;
         $scope.computeStats();
@@ -129,6 +137,7 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
         $rootScope.apply($scope);
     });
 
+    // 'c' => Clear, 'r' => Reveal (if presenter)
     $document.bind('keypress', function(e) {
         var key = String.fromCharCode(e.which);
         if (_.contains($scope.cards, key)) {
@@ -141,4 +150,7 @@ angular.module('planning').controller('SizingController', function ($scope, $roo
             $scope.revealSizesHandler();
         }
     });
+    
+    // Request card sizes from app -- allows for dynamic configuration
+    $scope.requestCardSizes();
 });
