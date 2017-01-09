@@ -1,6 +1,6 @@
 # Planning Poker App
 
-Version `1.0.0`
+Version `1.0.1`
 
 ## Overview
 
@@ -53,9 +53,9 @@ npm start
 ### GitHub Release
 
 ```bash
-wget https://codeload.github.com/mrodrig/planningPoker/zip/1.0.0
-unzip 1.0.0
-cd planningPoker-1.0.0
+wget https://codeload.github.com/mrodrig/planningPoker/zip/1.0.1
+unzip 1.0.1
+cd planningPoker-1.0.1
 npm run setup
 npm start
 ```
@@ -71,6 +71,15 @@ docker/setup.sh
 npm start
 ```
 
+### NPM
+
+```bash
+npm install planning-app
+cd node_modules/planning-app
+npm run setup
+npm start
+```
+
 ## Customizing
 
 Have special sizes that you would like to use?  That's completely possible with this app.
@@ -78,6 +87,8 @@ Have special sizes that you would like to use?  That's completely possible with 
 Just open `app/lib/envConfig.js` and change the `cardSizes` property to include your options!
 
 Proceed to start the app and your custom sizes should now appear.
+
+Additionally, the port can be customized too.  This is a little more difficult since it depends on the installation method used, but you should just be able to replace all instances of `8080` with the desired port.
 
 ## Running
 
@@ -99,6 +110,24 @@ npm run setup
 Unfortunately there is no easy way to update a version which was installed via a Github release.
 
 The simplest way to update would be to delete the directory and install the new version.
+
+### Docker
+
+```bash
+git pull origin master
+docker build -t planning .
+docker/start.sh
+docker/setup.sh
+```
+
+### NPM
+
+```bash
+rm -rf node_modules/planning-app
+npm install planning-app
+cd node_modules/planning-app
+npm setup
+```
 
 ## Testing
 
